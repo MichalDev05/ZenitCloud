@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "637e06195ba8e06ce5dad07c"
+  },
+  "name": "Michal",
+  "position": "CEO",
+  "text": "Very Good",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1669203481794"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1669203481794"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637e066405069ab442a84569"
+  },
+  "name": "William Smith",
+  "position": "podnikateľ",
+  "text": "Veľa rokov pracujem ako podnikateľ a učím svojich klientov, aby investovali do kvality. Pre mňa je to jednoznačne spoločnosť ZenitCloud, ktorá okrem stabilných služieb, kvalitnej podpory, prepracovanému systému poskytuje aj ľudskú, pre mňa nenahraditeľnú, nadstavbu.",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1669203556275"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1669203556275"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637e09eb4a2ccc7007d8e720"
+  },
+  "name": "Michal Fráter",
+  "position": "Kráľ",
+  "text": "Doména od tejto firmy pre moju kráľovskú webstránku je super ;)",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1669204459199"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1669204459199"
+    }
+  },
+  "__v": 0
+}]
