@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Home</title>
+</head>
+<body>
+    <header class="reg-header">
+        <nav>
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h3 class="logo1">ZENIT</h3>
+                    <h3 class="logo2">CLOUD</h3>
+                </div>
+                <div class="links">
+                    <a href="/" class="link">Úvod</a>
+                    <a href="#" class="link">O Nás</a>
+                    <a href="#" class="link">Služby</a>
+                    <a href="#" class="link">Kontakt</a>
+                </div>
+                <div class="accounts" id="accounts-manager">
+                    <button class="login-btn"  onclick="location.href='/login'">PRIHLÁSIŤ</button>
+                    <button class="register-btn" onclick="location.href='/register'">REGISTROVAŤ</button>
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="reg-window">
+            <div class="search-wrapper">
+
+                <h2 class="search-text">PRIHLÁSENIE UŽÍVATEĽA</h2>
+                
+                <div class="podnadpis-wrapper">
+
+                    <p class="podnadpis  inline">Úvod /</p>
+                    <p class="podnadpis darker inline">Prihlásenie</p><br>
+                </div>
+                
+            </div>
+        </div>
+
+
+    </header>
+
+    <main>
+
+        <div class="register-wrapper">
+            <form action="" class="register-form" id="login-form">
+                <input required type="text" class="register-input" placeholder="Vaše prihlasovacie meno/email" name="" id="nameemail">
+                <input required type="password" class="register-input" placeholder="Vaše prihlasovacie heslo" name="" id="password">
+                <button type="submit" class="register-submit">PRIHLÁSIŤ</button>
+            </form>
+        </div>
+
+       
+
+
+        <div class="rating-wrapper">
+            <p class="host-sluzby hodnotenia">Hodnotenia</p>
+            <h5 class="napisali">Napísali o nás</h5>
+            <div class="quotes-icon"><img src="../img/double-quotes.svg" class="quotes-logo" alt="" srcset=""></div>
+            <p class="review-txt" id="rev-txt">"Veľa rokov pracujem ako podnikateľ a učím svojich klientov, aby investovali do kvality. Pre mňa je to jednoznačne spoločnosť ZenitCloud, ktorá okrem stabilných služieb, kvalitnej podpory, prepracovanému systému poskytuje aj ľudskú, pre mňa nenahraditeľnú, nadstavbu."</p>
+            <p class="rev-name" id="rev-name">William Smith</p>
+            <p class="host-sluzby  hodnotenia"id="rev-pos">podnikateľ</p>
+        </div>
+
+
+    </main>
+
+    <footer>
+        <div class="foot-wrapper">
+            
+            <div class="foot-element foot1">
+                <h6 class="foot-title">Konfigurácie</h6>
+                <p class="foot-txt">Basic Cloud</p>
+                <p class="foot-txt">Cloud VPS</p>
+                <p class="foot-txt">Advanced Cloud</p>
+            </div>
+            <div class="foot-element foot2">
+                <h6 class="foot-title">O nás</h6>
+                <p class="foot-txt">Na trhu pôsobíme od roku 1985. Začali sme ako nadšenci a neskôr sme vybudovali obrovskú značku, ktorá disponuje spoľahlivou infraštruktúrou zahŕňajúcou tri veľké dátové centrá rozdelené na viaceré lokácie a tímom administrátorv, ktorí na všetko dohliadajú.</p>
+                
+            </div>
+            <div class="foot-element foot3">
+                <h6 class="foot-title inline">Kontakty</h6><br>
+                <p class="foot-txt bold inline">Telefón:</p>
+                <p class="foot-txt inline">0900-111-222</p><br>
+                <p class="foot-txt bold inline">Email:</p>
+                <p class="foot-txt inline">contact@zcloud.eu</p><br>
+                <p class="foot-txt bold inline">Podpora:</p>
+                <p class="foot-txt inline">support@zcloud.eu</p><br>
+                <p class="foot-txt bold inline">Web adresa:</p>
+                <p class="foot-txt inline">https://zcloud.eu</p><br>
+            </div>
+        </div>
+    </footer>
+        
+
+    <script>
+        const form = document.getElementById("login-form");
+        let revTxt = document.getElementById("rev-txt");
+        let revPos = document.getElementById("rev-pos");
+        let revName = document.getElementById("rev-name");
+        form.addEventListener('submit', async (event)=>{
+            event.preventDefault();
+            let nameemail = document.getElementById("nameemail").value;
+            let password = document.getElementById("password").value;
+
+            let result = await fetch('/api/login',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nameemail,
+                    password,
+                })
+            }).then((res) =>res.json());
+            if (result.status == 'ok'){
+                localStorage.setItem('token', result.data);
+                window.location.href = '/';
+            } else {
+                alert(result.error);
+            }
+        });
+
+
+
+        let accountsManager = document.getElementById("accounts-manager");
+        checkIfAdmin();
+        async function checkIfAdmin(){
+            let token = localStorage.getItem('token');
+
+            let result = await fetch('/api/check-if-admin',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token
+                })
+            }).then((res) =>res.json());
+            if (result.status == 'ok'){
+                if (result.data == 'admin'){
+                    accountsManager.innerHTML = `                    <button class="register-btn" onclick="location.href='/#'">Administrácia</button>`;
+                } else {
+                    
+                    accountsManager.innerHTML = `                    <button class="register-btn" onclick="location.href='/#'">Profil</button>`;
+                    accountsManager.innerHTML += `                    <button class="odhl-btn" onclick="localStorage.setItem('token', result.data); window.location.href = '/';">Odhlásiť</button>`;
+                }
+            } else {
+                // alert(result.error);
+            }
+        }
+
+
+
+
+        let i = 0;
+        let maxI;
+        let result;
+        getAllReviews();
+        async function getAllReviews(){
+            result = await fetch('/api/get-all-reviews',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+                
+            }).then((res) =>res.json());
+            maxI = result.data.length-1;
+        }
+
+        i = 1;
+        if (result != null){
+            revTxt.innerHTML = result.data[i].text;
+            revName.innerHTML = result.data[i].name;
+            revPos.innerHTML = result.data[i].position;
+        }
+        const interval = setInterval(function() {
+            if (result != null){
+                if (i == maxI){
+                    i = 0
+                } else{
+                    i++;
+                }
+                revTxt.innerHTML = result.data[i].text;
+                revName.innerHTML = result.data[i].name;
+                revPos.innerHTML = result.data[i].position;
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
